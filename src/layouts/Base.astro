@@ -1,0 +1,47 @@
+---
+import { BRAND } from "../config";
+const { title = BRAND.title, description = BRAND.description, canonical } = Astro.props;
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <link rel="alternate" type="application/rss+xml" title={BRAND.title} href="/rss.xml" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles/astropaper.css" />
+    <slot name="analytics" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="site">
+      <header>
+        <a href="/" class="brand">{BRAND.title}</a>
+        <nav class="nav">
+          <a href="/posts">Posts</a>
+          <a href="/tags">Tags</a>
+          <a href="/about">About</a>
+          <a href="/now">Now</a>
+          <a href="/subscribe">Subscribe</a>
+          <button id="theme-toggle" aria-label="Toggle theme">⭘</button>
+        </nav>
+      </header>
+      <main><slot /></main>
+      <footer>© {new Date().getFullYear()} {BRAND.title}</footer>
+    </div>
+    <script>
+      const btn = document.getElementById('theme-toggle');
+      const prefers = matchMedia('(prefers-color-scheme: dark)').matches;
+      const saved = localStorage.getItem('theme');
+      const set = (t) => { document.documentElement.dataset.theme = t; localStorage.setItem('theme', t); };
+      set(saved || (prefers ? 'dark' : 'light'));
+      btn?.addEventListener('click', () => set(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
+    </script>
+  </body>
+</html>

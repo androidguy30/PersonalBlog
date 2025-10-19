@@ -1,0 +1,20 @@
+---
+import Base from "../../layouts/Base.astro";
+import { BRAND } from "../../config";
+
+const postsGlob = import.meta.glob('../posts/*.{md,mdx}', { eager: true });
+const tagCounts = new Map();
+for (const [, mod] of Object.entries(postsGlob)) {
+  const f = mod.frontmatter ?? {};
+  (f.tags || []).forEach((t) => tagCounts.set(t, (tagCounts.get(t) || 0) + 1));
+}
+const tags = Array.from(tagCounts.entries()).sort((a,b)=> a[0].localeCompare(b[0]));
+---
+<Base title={`Tags — ${BRAND.title}`} description={BRAND.description} canonical={`${BRAND.homeUrl}/tags`}>
+  <h1>Tags</h1>
+  <ul>
+    {tags.map(([tag, count]) => (
+      <li><a href={`/tags/${tag}`}>{tag}</a> <span class="post-meta">({count})</span></li>
+    ))}
+  </ul>
+</Base>

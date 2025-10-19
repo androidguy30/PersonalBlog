@@ -1,0 +1,22 @@
+---
+import Base from "../../layouts/Base.astro";
+import { BRAND } from "../../config";
+
+const { tag } = Astro.params;
+const postsGlob = import.meta.glob('../posts/*.{md,mdx}', { eager: true });
+const posts = Object.entries(postsGlob).map(([path, mod]) => ({
+  url: path.replace('../', '/').replace('/posts/', '/posts/').replace(/\.(md|mdx)$/, ''),
+  fm: mod.frontmatter ?? {}
+})).filter(p => (p.fm.tags || []).includes(tag))
+  .sort((a, b) => new Date(b.fm.pubDate) - new Date(a.fm.pubDate));
+---
+<Base title={`${tag} — ${BRAND.title}`} description={`Posts tagged ${tag}`} canonical={`${BRAND.homeUrl}/tags/${tag}`}>
+  <h1>#{tag}</h1>
+  {posts.map(p => (
+    <div class="post-card">
+      <a href={p.url}><strong>{p.fm.title}</strong></a>
+      <div class="post-meta">{p.fm.pubDate}</div>
+      <p>{p.fm.description}</p>
+    </div>
+  ))}
+</Base>
