@@ -4,6 +4,11 @@ const { title = BRAND.title, description = BRAND.tagline, canonical } = Astro.pr
 ---
 <html lang="en">
   <head>
+    <!-- Elegant serif for headings + modern sans for body/code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
@@ -47,5 +52,17 @@ const { title = BRAND.title, description = BRAND.tagline, canonical } = Astro.pr
         set(now);
       });
     </script>
+    <div id="progress" style="position:fixed;left:0;top:0;height:3px;width:0;background:var(--accent);z-index:9999;"></div>
+<script>
+  const bar = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    bar.style.width = pct + '%';
+  };
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
   </body>
 </html>
