@@ -1,0 +1,13 @@
+---
+import Layout from "../components/Layout.astro";
+import { BRAND } from "../config";
+---
+<Layout title={`Now — ${BRAND.title}`} description="What I'm focused on right now" canonical={`${BRAND.homeUrl}/now`}>
+  <h1>Now</h1>
+  <ul>
+    <li>Writing weekly essays on engineering leadership.</li>
+    <li>Exploring mobile security & runtime protections.</li>
+    <li>Coaching senior ICs into staff/lead roles.</li>
+  </ul>
+  <p class="muted">Inspired by <a href="https://nownownow.com/about">/now</a> pages.</p>
+</Layout>

@@ -1,0 +1,9 @@
+---
+import Layout from "../components/Layout.astro";
+import { BRAND, AUTHOR } from "../config";
+---
+<Layout title={`About — ${BRAND.title}`} description={BRAND.tagline} canonical={`${BRAND.homeUrl}/about`}>
+  <h1>About</h1>
+  <p>I'm {AUTHOR.name}, a Software Engineering Manager who still writes code. I focus on mobile & SDK architecture, developer experience, and building excellent engineering teams.</p>
+  <p>Elsewhere: <a href={`https://github.com/${AUTHOR.github}`}>GitHub</a> · <a href={`https://twitter.com/${AUTHOR.twitter}`}>Twitter</a> · <a href={`https://www.linkedin.com/in/${AUTHOR.linkedin}`}>LinkedIn</a></p>
+</Layout>

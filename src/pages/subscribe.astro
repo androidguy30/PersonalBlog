@@ -1,0 +1,25 @@
+---
+import Layout from "../components/Layout.astro";
+import { BRAND } from "../config";
+---
+<Layout title={`Subscribe — ${BRAND.title}`} description="Get new posts in your inbox" canonical={`${BRAND.homeUrl}/subscribe`}>
+  <h1>Subscribe</h1>
+  <p>Get new posts by email. No spam, unsubscribe anytime.</p>
+  <!-- Buttondown example; replace 'your-buttondown-username' and ensure action URL is correct -->
+  <form
+    action="https://buttondown.email/api/emails/embed-subscribe/your-buttondown-username"
+    method="post"
+    target="popupwindow"
+    onsubmit="window.open('https://buttondown.email/your-buttondown-username', 'popupwindow')"
+    class="embeddable-buttondown-form"
+  >
+    <input type="email" name="email" placeholder="you@example.com" required />
+    <input type="hidden" value="1" name="embed" />
+    <button type="submit">Subscribe</button>
+  </form>
+  <style>
+    form { display:flex; gap:.6rem; align-items:center; }
+    input[type="email"] { flex:1; padding:.6rem .8rem; border:1px solid var(--muted); border-radius:8px; background:transparent; color:var(--text); }
+    button { padding:.6rem 1rem; border:1px solid var(--muted); background:transparent; color:var(--text); border-radius:8px; cursor:pointer; }
+  </style>
+</Layout>

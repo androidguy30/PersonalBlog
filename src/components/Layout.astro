@@ -1,0 +1,51 @@
+---
+import { BRAND } from "../config";
+const { title = BRAND.title, description = BRAND.tagline, canonical } = Astro.props;
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="alternate" type="application/rss+xml" title={BRAND.title} href="/rss.xml" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles/theme.css" />
+    <slot name="analytics" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="/" class="brand">{BRAND.title}</a>
+      <nav class="nav">
+        <a href="/blog">Blog</a>
+        <a href="/about">About</a>
+        <a href="/now">Now</a>
+        <a href="/subscribe">Subscribe</a>
+        <a href="/rss.xml" aria-label="RSS">RSS</a>
+        <button id="theme-toggle" aria-label="Toggle theme">⭘</button>
+      </nav>
+    </header>
+    <main class="site-main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="muted">© {new Date().getFullYear()} {BRAND.title}</div>
+    </footer>
+    <script>
+      // simple theme toggle, default to system
+      const btn = document.getElementById('theme-toggle');
+      const prefers = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const saved = localStorage.getItem('theme');
+      const set = (t) => { document.documentElement.dataset.theme = t; localStorage.setItem('theme', t); };
+      set(saved || (prefers ? 'dark' : 'light'));
+      btn?.addEventListener('click', () => {
+        const now = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        set(now);
+      });
+    </script>
+  </body>
+</html>

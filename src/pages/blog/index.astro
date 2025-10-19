@@ -1,0 +1,24 @@
+---
+import Layout from "../../components/Layout.astro";
+import { BRAND } from "../../config";
+
+const postImports = import.meta.glob('./*.{md,mdx}', { eager: true });
+const posts = Object.entries(postImports)
+  .map(([path, mod]) => ({
+    url: path.replace('./', '/blog/').replace(/\.(md|mdx)$/, ''),
+    fm: mod.frontmatter ?? {}
+  }))
+  .sort((a,b) => new Date(b.fm.pubDate) - new Date(a.fm.pubDate));
+---
+<Layout title={`Blog — ${BRAND.title}`} description={BRAND.tagline} canonical={`${BRAND.homeUrl}/blog`}>
+  <h1>Blog</h1>
+  <ul class="post-list">
+    {posts.map(p => (
+      <li>
+        <a href={p.url}><strong>{p.fm.title ?? p.url}</strong></a>
+        <div class="post-meta">{p.fm.pubDate} · {p.fm.tags?.join(', ')}</div>
+        <p>{p.fm.description}</p>
+      </li>
+    ))}
+  </ul>
+</Layout>
