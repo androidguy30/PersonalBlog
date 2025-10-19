@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // CHANGE THIS to your real prod URL (https://...)
 const SITE = 'https://kausthubh.in';
-
+// Demo Exmaple
 export default defineConfig({
   site: SITE,
   integrations: [mdx(), sitemap()],
