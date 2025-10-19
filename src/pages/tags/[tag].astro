@@ -2,17 +2,47 @@
 import Base from "../../layouts/Base.astro";
 import { BRAND } from "../../config";
 
+/** Generate all tag pages at build time */
+export async function getStaticPaths() {
+  // Load all posts eagerly at build
+  const postsGlob = import.meta.glob("../posts/*.{md,mdx}", { eager: true });
+
+  // Collect unique tags
+  const tagSet = new Set<string>();
+  for (const [, mod] of Object.entries(postsGlob)) {
+    const fm = (mod as any).frontmatter ?? {};
+    (fm.tags ?? []).forEach((t: string) => tagSet.add(t));
+  }
+
+  // Return params for each tag (e.g., /tags/leadership)
+  return Array.from(tagSet).map((t) => ({ params: { tag: t } }));
+}
+
+export const prerender = true; // ensure static HTML
+
 const { tag } = Astro.params;
-const postsGlob = import.meta.glob('../posts/*.{md,mdx}', { eager: true });
-const posts = Object.entries(postsGlob).map(([path, mod]) => ({
-  url: path.replace('../', '/').replace('/posts/', '/posts/').replace(/\.(md|mdx)$/, ''),
-  fm: mod.frontmatter ?? {}
-})).filter(p => (p.fm.tags || []).includes(tag))
+
+// Get posts for this tag
+const postsGlob = import.meta.glob("../posts/*.{md,mdx}", { eager: true });
+const posts = Object.entries(postsGlob)
+  .map(([path, mod]) => ({
+    url: path
+      .replace("../", "/")
+      .replace("/posts/", "/posts/")
+      .replace(/\.(md|mdx)$/, ""),
+    fm: (mod as any).frontmatter ?? {},
+  }))
+  .filter((p) => (p.fm.tags || []).includes(tag))
   .sort((a, b) => new Date(b.fm.pubDate) - new Date(a.fm.pubDate));
 ---
-<Base title={`${tag} — ${BRAND.title}`} description={`Posts tagged ${tag}`} canonical={`${BRAND.homeUrl}/tags/${tag}`}>
+
+<Base
+  title={`${tag} — ${BRAND.title}`}
+  description={`Posts tagged ${tag}`}
+  canonical={`${BRAND.homeUrl}/tags/${tag}`}
+>
   <h1>#{tag}</h1>
-  {posts.map(p => (
+  {posts.map((p) => (
     <div class="post-card">
       <a href={p.url}><strong>{p.fm.title}</strong></a>
       <div class="post-meta">{p.fm.pubDate}</div>
