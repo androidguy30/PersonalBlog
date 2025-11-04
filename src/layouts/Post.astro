@@ -3,7 +3,6 @@ import Base from "./Base.astro";
 import Giscus from "../partials/Giscus.astro";
 const { frontmatter } = Astro.props;
 
-// Date -> "Nov 4, 2025"
 const pub =
   typeof frontmatter.pubDate === "string"
     ? new Date(frontmatter.pubDate)
@@ -13,14 +12,15 @@ const dateStr = pub
   ? pub.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })
   : "";
 ---
-<Base
-  title={`${frontmatter.title} — Kausthubh`}
-  description={frontmatter.description}
-  canonical={frontmatter.canonical}
->
+
+<Base title={`${frontmatter.title} — Kausthubh`} description={frontmatter.description} canonical={frontmatter.canonical}>
   <article class="post-wrap">
     <header class="post-head">
       <h1 class="post-title">{frontmatter.title}</h1>
+
+      {frontmatter.description && (
+        <p class="post-dek">{frontmatter.description}</p>
+      )}
 
       <div class="post-meta">
         {dateStr}
@@ -33,10 +33,6 @@ const dateStr = pub
           </>
         )}
       </div>
-
-      {frontmatter.description && (
-        <p class="post-dek">{frontmatter.description}</p>
-      )}
     </header>
 
     <section class="post-body">
@@ -45,132 +41,6 @@ const dateStr = pub
   </article>
 
   <hr class="post-divider" />
+
   <Giscus />
-
-  <style is:global>
-    /* Container: match site’s center column and side padding */
-    :root{
-      --post-width: 46rem;                    /* ~736px; tweak if your home uses a different width */
-      --side-pad: clamp(16px, 4vw, 28px);     /* responsive left/right padding */
-      --muted-fg: color-mix(in oklab, currentColor 55%, transparent);
-      --border-fg: color-mix(in oklab, currentColor 16%, transparent);
-      /* Optional code inline bg; remains subtle in both themes */
-      --code-inline-bg: color-mix(in oklab, currentColor 10%, transparent);
-    }
-
-    .post-wrap{
-      max-width: var(--post-width);
-      margin-inline: auto;
-      padding-inline: var(--side-pad);
-    }
-
-    .post-head{ margin: 2.25rem 0 1.25rem; }
-    .post-title{
-      margin: 0 0 .5rem;
-      line-height: 1.15;
-      letter-spacing: -0.01em;
-      font-size: clamp(2rem, 4.5vw, 2.6rem);
-    }
-
-    .post-dek{
-      margin: .5rem 0 0;
-      font-size: 1.05rem;
-      line-height: 1.6;
-      color: var(--muted-fg);
-    }
-
-    .post-meta{
-      display: inline-flex;
-      flex-wrap: wrap;
-      gap: .5rem;
-      align-items: center;
-      color: var(--muted-fg);
-      font-size: .95rem;
-    }
-    .post-meta .tag{
-      display: inline-block;
-      padding: .1rem .6rem;
-      border: 1px solid var(--border-fg);
-      border-radius: 999px;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .post-body{
-      font-size: 1.02rem;
-      line-height: 1.8;
-      letter-spacing: .003em;
-    }
-    .post-body p{ margin: 1.1em 0; }
-
-    .post-body h2{
-      margin: 2rem 0 .8rem;
-      line-height: 1.25;
-      letter-spacing: -0.005em;
-      font-size: clamp(1.5rem, 3vw, 1.9rem);
-    }
-    .post-body h3{
-      margin: 1.6rem 0 .6rem;
-      font-size: clamp(1.25rem, 2.5vw, 1.5rem);
-    }
-    .post-body h4{ margin: 1.25rem 0 .4rem; }
-
-    .post-body ul, .post-body ol{
-      padding-left: 1.25rem;
-      margin: 1rem 0;
-    }
-    .post-body li{ margin: .35rem 0; }
-
-    .post-body blockquote{
-      margin: 1.5rem 0;
-      padding: .25rem 1rem;
-      border-left: 4px solid currentColor;
-      color: var(--muted-fg);
-      background: color-mix(in oklab, currentColor 6%, transparent);
-    }
-
-    /* Images and tables stay within the same content width */
-    .post-body img, .post-body table{
-      max-width: 100%;
-    }
-    .post-body table{
-      border-collapse: collapse;
-      margin: 1.25rem 0;
-      font-size: .98rem;
-      width: 100%;
-    }
-    .post-body th, .post-body td{
-      border: 1px solid var(--border-fg);
-      padding: .6rem .75rem;
-    }
-
-    /* Code blocks: keep your existing syntax colors, just add spacing/radius */
-    /* Astro Shiki often emits .astro-code; Prism uses pre[class*="language-"] */
-    .post-body pre,
-    .post-body .astro-code,
-    .post-body pre[class*="language-"]{
-      border: 1px solid var(--border-fg);
-      border-radius: 12px;
-      padding: 1rem 1.1rem;
-      overflow: auto;
-      line-height: 1.6;
-      font-size: .95rem;
-    }
-
-    /* Inline code: subtle background that adapts to theme */
-    .post-body :not(pre) > code{
-      background: var(--code-inline-bg);
-      border: 1px solid var(--border-fg);
-      padding: .1rem .35rem;
-      border-radius: 6px;
-      font-size: .95em;
-    }
-
-    .post-divider{
-      border: 0;
-      border-top: 1px solid var(--border-fg);
-      max-width: var(--post-width);
-      margin: 2.5rem auto;
-    }
-  </style>
 </Base>
