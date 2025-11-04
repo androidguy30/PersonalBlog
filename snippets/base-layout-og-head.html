@@ -1,0 +1,20 @@
+<!-- Paste inside <head> of your base layout -->
+<!-- Basic -->
+<meta name="title" content={Astro.props?.title ?? 'Kausthubh — Engineering & Leadership'}>
+<meta name="description" content={Astro.props?.description ?? 'Mobile & SDK EM · React Native + Expo · Apple Wallet · Security SDKs'}>
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content={Astro.url?.href ?? 'https://kausthubh.in'}>
+<meta property="og:title" content={Astro.props?.title ?? 'Kausthubh — Engineering & Leadership'}>
+<meta property="og:description" content={Astro.props?.description ?? 'Mobile & SDK EM · React Native + Expo · Apple Wallet · Security SDKs'}>
+<meta property="og:image" content="https://kausthubh.in/og-default.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content={Astro.props?.title ?? 'Kausthubh — Engineering & Leadership'}>
+<meta name="twitter:description" content={Astro.props?.description ?? 'Mobile & SDK EM · React Native + Expo · Apple Wallet · Security SDKs'}>
+<meta name="twitter:image" content="https://kausthubh.in/og-default.png">
+
+<!-- Optional: canonical -->
+<link rel="canonical" href={Astro.url?.href ?? 'https://kausthubh.in'}>

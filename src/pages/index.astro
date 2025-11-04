@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import { BRAND } from "../config";
+import Hero from "../layouts/Hero.astro";
 
 const postsGlob = import.meta.glob('./posts/*.{md,mdx}', { eager: true });
 const posts = Object.entries(postsGlob).map(([path, mod]) => {
@@ -13,6 +14,7 @@ const posts = Object.entries(postsGlob).map(([path, mod]) => {
 ---
 <Base title={BRAND.title} description={BRAND.description} canonical={`${BRAND.homeUrl}/`}>
   <section>
+    <Hero/>
     <h1>Writing</h1>
     <p class="post-meta">{BRAND.description}</p>
     {posts.map(p => (

@@ -1,0 +1,15 @@
+---
+// Example props used by your post layout; rename to match your layout.
+const { title, description, pubDate } = Astro.props;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  description,
+  datePublished: pubDate,
+  author: { "@type": "Person", name: "Kausthubh Adhikari" },
+  mainEntityOfPage: { "@type": "WebPage", "@id": "https://kausthubh.in" }
+};
+---
+<!-- Paste this <script> in your post layout head -->
+<script type="application/ld+json">{JSON.stringify(jsonLd)}</script>

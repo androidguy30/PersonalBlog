@@ -1,0 +1,27 @@
+---
+const links = {
+  resume: '/Kausthubh-Adhikari-Resume.pdf', // update if needed
+  email: 'mailto:kausthubhadhikari@gmail.com',
+  linkedin: 'https://www.linkedin.com/in/kausthubhadhikari/',
+};
+---
+
+<section style="padding: 3rem 0; display: grid; gap: 1rem;">
+  <h1 style="font-size: clamp(2rem, 6vw, 3rem); line-height: 1.1; margin: 0;">
+    Mobile & SDK Engineering Manager
+  </h1>
+  <p style="font-size: 1.1rem; max-width: 70ch; margin: 0;">
+    React Native + Expo · Apple Wallet Extensions · RASP & Secure SDKs · Multi-tenant banking apps
+  </p>
+  <ul style="display:flex; flex-wrap: wrap; gap: .75rem; padding: 0; margin: .5rem 0 0; list-style: none;">
+    <li>• Apple Wallet (UI/Non‑UI) extensions</li>
+    <li>• Guardsquare/DexGuard & integrity</li>
+    <li>• RN/Expo monorepos</li>
+    <li>• Kotlin Multiplatform</li>
+  </ul>
+  <div style="display:flex; gap: .75rem; margin-top: 1rem;">
+    <a href={links.resume} style="padding:.6rem 1rem; border:1px solid currentColor; text-decoration:none;">Download résumé</a>
+    <a href={links.email} style="padding:.6rem 1rem; border:1px solid currentColor; text-decoration:none;">Work with me</a>
+    <a href={links.linkedin} style="padding:.6rem 1rem; border:1px solid currentColor; text-decoration:none;">LinkedIn</a>
+  </div>
+</section>
