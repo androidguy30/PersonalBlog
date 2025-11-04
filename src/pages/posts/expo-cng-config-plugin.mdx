@@ -1,18 +1,18 @@
 ---
 title: "Stop Editing Xcode & Gradle: Expo CNG + Config Plugins Explained"
-description: "A practical, code-first guide to Expo’s Continuous Native Generation (CNG) workflow and building a Firebase config plugin that automates native setup for iOS and Android."
+description: "A practical, code-first guide to Expo's Continuous Native Generation (CNG) workflow and building a Firebase config plugin that automates native setup for iOS and Android."
 pubDate: "2025-11-04"
 tags: [ "Expo", "React Native" , "CNG", "Config Plugins", "Firebase", "iOS", "Android"]
 canonical: "<a href="https://kausthubh.in/posts/expo-cng-config-plugin">https://kausthubh.in/posts/expo-cng-config-plugin</a>"
 ---
 
-Expo’s new **CNG workflow (Continuous Native Generation)** fundamentally changes how we work with the `ios/` and `android/` directories in React Native projects. Instead of editing native code manually, CNG treats these folders as **generated artifacts** — rebuilt on demand from configuration, dependencies, and plugins.
+Expo's new **CNG workflow (Continuous Native Generation)** fundamentally changes how we work with the `ios/` and `android/` directories in React Native projects. Instead of editing native code manually, CNG treats these folders as **generated artifacts** — rebuilt on demand from configuration, dependencies, and plugins.
 
 This unlocks a cleaner workflow: you focus on JS + config, while Expo regenerates your native project reliably and consistently.
 
 ## What is Continuous Native Generation?
 
-**Continuous Native Generation (CNG)** is Expo’s evolution of the managed workflow. Rather than maintaining Xcode and Gradle files by hand, CNG regenerates them using your app config, package dependencies, and **Config Plugins**.
+**Continuous Native Generation (CNG)** is Expo's evolution of the managed workflow. Rather than maintaining Xcode and Gradle files by hand, CNG regenerates them using your app config, package dependencies, and **Config Plugins**.
 
 ### Why CNG matters
 
@@ -21,7 +21,7 @@ This unlocks a cleaner workflow: you focus on JS + config, while Expo regenerate
 - ✅ Clear separation of app logic vs platform scaffolding  
 - ✅ Native changes automated through plugins instead of manual edits  
 
-> CNG doesn’t mean you’ll *never* touch native code — it ensures you touch it **only when truly required**, and encapsulate those changes cleanly in reusable plugins.
+> CNG doesn't mean you'll *never* touch native code — it ensures you touch it **only when truly required**, and encapsulate those changes cleanly in reusable plugins.
 
 ---
 
@@ -40,7 +40,7 @@ With **Expo Config Plugins**, these steps become automated — ensuring your nat
 expo prebuild
 ```
 
-Let’s build a plugin that wires up Firebase Analytics on both platforms.
+Let's build a plugin that wires up Firebase Analytics on both platforms.
 
 ---
 
