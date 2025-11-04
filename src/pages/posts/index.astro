@@ -3,10 +3,13 @@ import Base from "../../layouts/Base.astro";
 import { BRAND } from "../../config";
 
 const postsGlob = import.meta.glob('./*.{md,mdx}', { eager: true });
-const posts = Object.entries(postsGlob).map(([path, mod]) => ({
-  url: path.replace('./', '/posts/').replace(/\.(md|mdx)$/, ''),
-  fm: mod.frontmatter ?? {}
-})).sort((a, b) => new Date(b.fm.pubDate) - new Date(a.fm.pubDate));
+const posts = Object.entries(postsGlob).map(([path, mod]) => {
+  const filename = path.replace(/^\.\//, '').replace(/\.(md|mdx)$/, '');
+  return {
+    url: `/posts/${filename}`,
+    fm: mod.frontmatter ?? {}
+  };
+}).sort((a, b) => new Date(b.fm.pubDate) - new Date(a.fm.pubDate));
 ---
 <Base title={`Posts — ${BRAND.title}`} description={BRAND.description} canonical={`${BRAND.homeUrl}/posts`}>
   <h1>All Posts</h1>
