@@ -55,6 +55,7 @@ npm init -y
 ```
 
 
+
 ## TypeScript Config
 
 Next, create a `tsconfig.json` file that defines your `rootDir`, `compilerOptions`, and other TypeScript configurations. You can copy the example snippet below.
@@ -73,6 +74,7 @@ Next, create a `tsconfig.json` file that defines your `rootDir`, `compilerOption
   "include": ["src"]
 }
 ```
+
 
 
 ## Setup Plugin Types and Configuration
@@ -94,7 +96,7 @@ type Options = {
 };
 ```
 
----
+
 
 ## Android Firebase SDK Setup
 
@@ -129,6 +131,7 @@ const withAndroidConfiguration: ConfigPlugin<Options> = (config, options) => {
 ```
 
 
+
 ## iOS Firebase SDK Setup
 
 On iOS, dependencies are managed through Podfiles. Using Expo's `withPodfile` API, we can include the `Firebase/Analytics` dependency. Since the Firebase SDK needs to be initialised in the `AppDelegate` file, we'll use Expo's `withAppDelegate` API to handle that setup automatically.
@@ -160,6 +163,7 @@ const withIosConfiguration: ConfigPlugin<Options> = (config) => {
 ```
 
 
+
 ## Copy Firebase Credentials
 
 Finally, implement the logic to copy the `google-services.json` and `GoogleService-Info.plist` files. These files contain the credentials required to initialise the Firebase SDK on Android and iOS respectively.
@@ -179,6 +183,7 @@ const withCredentialsCopy: ConfigPlugin<Options> = (config, options) => {
   }]);
 };
 ```
+
 
 
 ## Export Plugin
@@ -201,6 +206,7 @@ export default createRunOncePlugin(
   "1.0.0"
 );
 ```
+
 
 
 ## Update `app.config.ts`
@@ -227,6 +233,7 @@ plugins: [
 ```
 
 
+
 ## ✅ Test It
 
 Run the build command to compile your TypeScript plugin, then execute `expo prebuild --clean` to regenerate your native directories with the Firebase configuration applied.
@@ -240,6 +247,8 @@ npm run build
 cd ../..
 npx expo prebuild --clean
 ```
+
+
 
 ---
 This Firebase example is just the beginning — once you build one plugin, you start thinking in automation by default.
