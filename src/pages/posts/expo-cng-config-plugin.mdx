@@ -30,10 +30,10 @@ This unlocks a cleaner workflow: you focus on JS + config, while Expo regenerate
 
 In a typical RN app, adding something like Firebase Analytics means touching:
 
-- Gradle build files  
-- Podfile  
+- Project and App Gradle file 
+- Podfile with the Firebase analytics dependency  
 - `AppDelegate` / `MainApplication`  
-- Copying Google credentials files  
+- Copy Google credentials files in Android and iOS directories (`google-services.json` & `GoogleService.InfoPlist`)  
 
 With **Expo Config Plugins**, these steps become automated — ensuring your native project is always correct whenever you run:
 
@@ -45,8 +45,9 @@ Let's build a plugin that wires up Firebase Analytics on both platforms.
 
 ---
 
-## 📁 Step 1: Project Structure
+## Initial Structure
 
+First, we'll set up a folder for the config plugin and generate a `package.json` for it. You can run these commands right from your Expo project's root.
 ```bash
 mkdir -p plugins/expo-analytics-config-plugin/src
 cd plugins/expo-analytics-config-plugin
@@ -55,10 +56,9 @@ npm init -y
 
 ---
 
-## ⚙ Step 2: TypeScript Config
+## TypeScript Config
 
-`tsconfig.json`
-
+Next, create a `tsconfig.json` file that defines your `rootDir`, `compilerOptions`, and other TypeScript configurations. You can copy the example snippet below.
 ```json
 {
   "compilerOptions": {
@@ -77,8 +77,9 @@ npm init -y
 
 ---
 
-## 🧠 Step 3: Plugin Types
+## Setup Plugin Types and Configuration
 
+In your `index.ts`, declare the plugin options. These options will be used to pass the metadata required by the config plugin.
 ```ts
 import { ConfigPlugin } from "@expo/config-plugins";
 
@@ -97,10 +98,9 @@ type Options = {
 
 ---
 
-## 🤖 Step 4: Android Config
+## Android Firebase SDK Setup
 
-Adds Google services & Firebase Analytics to Gradle:
-
+The project-level Gradle file (using Expo's `withProjectBuildGradle` API) should include the Firebase `classpath` declaration, while the app-level Gradle file (using Expo's `withAppBuildGradle` API) should add the Firebase Analytics dependency. This ensures Firebase resolves correctly on Android. You can add the following code snippet to your config plugin's `index.ts`. 
 ```ts
 import { withProjectBuildGradle, withAppBuildGradle } from "@expo/config-plugins";
 
@@ -132,10 +132,9 @@ const withAndroidConfiguration: ConfigPlugin<Options> = (config, options) => {
 
 ---
 
-## 🍏 Step 5: iOS Config
+## iOS Firebase SDK Setup
 
-Adds Firebase pods and initializes Firebase:
-
+On iOS, dependencies are managed through Podfiles. Using Expo's `withPodfile` API, we can include the `Firebase/Analytics` dependency. Since the Firebase SDK needs to be initialised in the `AppDelegate` file, we'll use Expo's `withAppDelegate` API to handle that setup automatically.
 ```ts
 import { withPodfile, withAppDelegate } from "@expo/config-plugins";
 
@@ -165,8 +164,9 @@ const withIosConfiguration: ConfigPlugin<Options> = (config) => {
 
 ---
 
-## 🔐 Step 6: Copy Credentials
+## Copy Firebase Credentials
 
+Finally, implement the logic to copy the `google-services.json` and `GoogleService-Info.plist` files. These files contain the credentials required to initialise the Firebase SDK on Android and iOS respectively.
 ```ts
 import { withDangerousMod } from "@expo/config-plugins";
 import fs from "fs";
@@ -186,7 +186,9 @@ const withCredentialsCopy: ConfigPlugin<Options> = (config, options) => {
 
 ---
 
-## 🧩 Step 7: Export Plugin
+## Export Plugin
+
+Finally, combine all these components into a single exported plugin. Use `createRunOncePlugin` to ensure it runs only once during the prebuild process, preventing duplicate configuration.
 
 ```ts
 import { createRunOncePlugin } from "@expo/config-plugins";
@@ -207,7 +209,9 @@ export default createRunOncePlugin(
 
 ---
 
-## 🛠 Step 8: Use It in `app.config.ts`
+## Update `app.config.ts`
+
+Now add the plugin to your `app.config.ts` file and configure it with your Firebase credentials. This is where you'll specify the paths to your `google-services.json` and `GoogleService-Info.plist` files.
 
 ```ts
 plugins: [
@@ -232,6 +236,10 @@ plugins: [
 
 ## ✅ Test It
 
+Run the build command to compile your TypeScript plugin, then execute `expo prebuild --clean` to regenerate your native directories with the Firebase configuration applied.
+
+Once complete, you should see the Firebase Analytics dependencies added on both platforms, the credentials copied to their respective locations, and the initialization code automatically injected into the `AppDelegate`.
+
 ```bash
 cd plugins/expo-analytics-config-plugin
 npm run build
@@ -241,15 +249,6 @@ npx expo prebuild --clean
 ```
 
 ---
-
-## 🎯 Final Thoughts
-
-With Expo's CNG workflow and config plugins:
-
-- Native setup becomes repeatable, automatic, and safe
-- Your repo stays clean — no random Gradle/Xcode edits
-- Upgrades and CI builds become painless
-
 This Firebase example is just the beginning — once you build one plugin, you start thinking in automation by default.
 
 **Full demo repo:** https://github.com/androidguy30/Expo-Config-Demo
