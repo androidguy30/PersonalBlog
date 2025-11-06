@@ -54,7 +54,6 @@ cd plugins/expo-analytics-config-plugin
 npm init -y
 ```
 
----
 
 ## TypeScript Config
 
@@ -75,7 +74,6 @@ Next, create a `tsconfig.json` file that defines your `rootDir`, `compilerOption
 }
 ```
 
----
 
 ## Setup Plugin Types and Configuration
 
@@ -130,7 +128,6 @@ const withAndroidConfiguration: ConfigPlugin<Options> = (config, options) => {
 };
 ```
 
----
 
 ## iOS Firebase SDK Setup
 
@@ -162,7 +159,6 @@ const withIosConfiguration: ConfigPlugin<Options> = (config) => {
 };
 ```
 
----
 
 ## Copy Firebase Credentials
 
@@ -184,7 +180,6 @@ const withCredentialsCopy: ConfigPlugin<Options> = (config, options) => {
 };
 ```
 
----
 
 ## Export Plugin
 
@@ -207,7 +202,6 @@ export default createRunOncePlugin(
 );
 ```
 
----
 
 ## Update `app.config.ts`
 
@@ -232,7 +226,6 @@ plugins: [
 ];
 ```
 
----
 
 ## ✅ Test It
 
