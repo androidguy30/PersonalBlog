@@ -1,0 +1,83 @@
+/* Portfolio Timeline Styles */
+
+.viewToggle{
+  display:inline-flex;
+  gap:.5rem;
+  padding:.25rem;
+  border:1px solid var(--border, rgba(255,255,255,.12));
+  border-radius:999px;
+}
+
+.toggleBtn{
+  text-decoration:none;
+  padding:.35rem .75rem;
+  border-radius:999px;
+  border:1px solid transparent;
+  opacity:.85;
+}
+
+.toggleBtn:hover{ opacity: 1; }
+
+.anchor{
+  position: relative;
+  top: -80px;
+  height: 1px;
+}
+
+/* Timeline always visible */
+.viewTimeline{ display:block; }
+
+/* Timeline visuals */
+.timeline{
+  list-style:none;
+  margin: 1rem 0 0 0;
+  padding: 0;
+  position: relative;
+}
+
+.timeline::before{
+  content:"";
+  position:absolute;
+  left: 14px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border, rgba(255,255,255,.12));
+}
+
+.tItem{
+  position: relative;
+  padding-left: 44px;
+  padding-bottom: 1.25rem;
+}
+
+.tDot{
+  position:absolute;
+  left: 7px;
+  top: 18px;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: 2px solid var(--border, rgba(255,255,255,.22));
+  background: rgba(255,255,255,.06);
+}
+
+.tCard{
+  border: 1px solid var(--border, rgba(255,255,255,.12));
+  border-radius: 16px;
+  padding: 1.25rem;
+  background: var(--card, transparent);
+}
+
+.tHead{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 1rem;
+}
+
+.tLogo{
+  height: 28px;
+  width:auto;
+  opacity:.9;
+}
