@@ -1,142 +1,97 @@
 ---
-import Base from "../layouts/Base.astro";
-import { BRAND, AUTHOR } from "../config";
-import resumeFile from '../assets/Kausthubh-Adhikari-Resume.pdf';
+import Layout from "../layouts/Base.astro"
+import "../styles/portfolio.css";
+import { getCollection } from "astro:content";
+
+/**
+ * Load all work items from src/content/work
+ */
+const work = await getCollection("work");
+
+/**
+ * Filter only featured items (used by cards + timeline)
+ */
+const featured = work
+  .filter((w) => w.data.featured)
+  .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+
+/**
+ * Helper to render separators without encoding issues.
+ * We intentionally avoid using a literal "·" character.
+ */
+const sep = " &middot; ";
 ---
 
-<Base title={`Portfolio — ${BRAND.title}`} description={`Portfolio of ${AUTHOR.name} - Engineering Manager specializing in mobile apps, SDKs, and fintech`} canonical={`${BRAND.homeUrl}/portfolio`}>
-  <div class="post-wrap">
-    <div class="post-head">
-      <h1 class="post-title">Portfolio</h1>
-      <p class="post-dek">Selected work, projects, and achievements in mobile engineering, SDK development, and team leadership.</p>
+<Layout title="Portfolio" description="Selected work across embedded finance, platforms, SDKs, and high-scale consumer apps.">
+  <section class="portfolioSection" style="margin-top: 2rem;">
+    <h2>Timeline</h2>
+
+    <!-- Timeline view -->
+    <div class="view viewTimeline" style="margin-top: 1rem;">
+      <ol class="timeline">
+        {featured.map((item) => (
+          <li class="tItem">
+            <div class="tDot" aria-hidden="true"></div>
+
+            <article class="tCard">
+              <div class="tHead">
+                <div>
+                  <h3 style="margin:0;">{item.data.company}</h3>
+
+                  {/* Avoid literal "·" by injecting HTML separator */}
+                  <div
+                    style="opacity:.8; margin-top:.25rem;"
+                    set:html={`${item.data.role}${sep}${item.data.domain}${item.data.period ? `${sep}${item.data.period}` : ""}`}
+                  />
+                </div>
+
+                {item.data.logo && (
+                  <img
+                    src={item.data.logo}
+                    alt={`${item.data.company} logo`}
+                    class="tLogo"
+                    loading="lazy"
+                  />
+                )}
+              </div>
+
+              <p style="margin-top:.75rem;">{item.data.blurb}</p>
+
+              {item.data.impact?.length ? (
+                <div class="impact">
+                  {item.data.impact.slice(0, 4).map((x) => (
+                    <span class="chip"><b>Impact:</b> {x}</span>
+                  ))}
+                </div>
+              ) : null}
+
+              {item.data.highlights?.length ? (
+                <ul style="margin:.5rem 0 0 1.1rem;">
+                  {item.data.highlights.slice(0, 4).map((h) => <li>{h}</li>)}
+                </ul>
+              ) : null}
+
+              {item.data.artifacts?.length ? (
+                <div class="chips" style="margin-top: .9rem;">
+                  {item.data.artifacts.map((a) => (
+                    <a class="chip" href={a.url} target="_blank" rel="noreferrer">
+                      {a.kind === "video" ? "🎥 " : a.kind === "app" ? "📱 " : "🔗 "}
+                      {a.label}
+                    </a>
+                  ))}
+                </div>
+              ) : null}
+
+              {item.data.tech?.length ? (
+                <div class="chips" style="margin-top: .9rem;">
+                  {item.data.tech.slice(0, 8).map((t) => <span class="chip">{t}</span>)}
+                </div>
+              ) : null}
+
+            </article>
+          </li>
+        ))}
+      </ol>
     </div>
-
-    <div class="post-body">
-      <section>
-        <h2>Experience</h2>
-        
-        <div style="margin: 1.5rem 0;">
-          <h3>Engineering Manager</h3>
-          <p class="post-meta" style="margin: 0.5rem 0;">
-            <strong>Constantinople</strong> · Fintech · Banking SDKs
-          </p>
-          <ul>
-            <li>Led mobile architecture initiatives across multi-tenant mobile apps serving millions of users</li>
-            <li>Architected and delivered banking SDKs with deep integrations in payments and security</li>
-            <li>Built Apple Wallet and UPI integrations for seamless payment experiences</li>
-            <li>Mentored engineers and shaped engineering practices across teams</li>
-            <li>Focused on platform security, developer experience, and scalable mobile architecture</li>
-          </ul>
-        </div>
-
-        <div style="margin: 1.5rem 0;">
-          <h3>Mobile Engineer</h3>
-          <p class="post-meta" style="margin: 0.5rem 0;">
-            <strong>Previous Roles</strong> · Consumer & Fintech Platforms
-          </p>
-          <ul>
-            <li>Scaled mobile engagement SDK to <strong>75 Million daily active users</strong></li>
-            <li>Decreased onboarding time by <strong>60%</strong> through architecture improvements</li>
-            <li>Built and maintained mobile apps across Android, iOS, React Native, and Kotlin Multiplatform</li>
-            <li>Deep expertise in payments and security integrations</li>
-          </ul>
-        </div>
-
-        <div style="margin: 1.5rem 0;">
-          <h3>Early Career</h3>
-          <p class="post-meta" style="margin: 0.5rem 0;">
-            <strong>YourStory</strong> · Startup Ecosystem
-          </p>
-          <ul>
-            <li>Early exposure to India's startup ecosystem and product scaling</li>
-            <li>Learned fundamentals of building simple, reliable, and user-focused systems</li>
-          </ul>
-        </div>
-      </section>
-
-      <hr class="post-divider" />
-
-      <section>
-        <h2>Key Achievements</h2>
-        <ul>
-          <li><strong>Scaled SDK to 75M+ DAU:</strong> Architected and optimized mobile engagement SDK handling millions of daily active users</li>
-          <li><strong>60% reduction in onboarding time:</strong> Improved developer experience and reduced time-to-integration through better architecture</li>
-          <li><strong>Multi-platform expertise:</strong> Delivered production apps across Android, iOS, React Native, and Kotlin Multiplatform</li>
-          <li><strong>Security & payments:</strong> Built secure banking SDKs with deep payment integrations (Apple Wallet, UPI)</li>
-          <li><strong>Team leadership:</strong> Hired, mentored, and grew engineering teams while maintaining hands-on technical contributions</li>
-        </ul>
-      </section>
-
-      <hr class="post-divider" />
-
-      <section>
-        <h2>Technologies & Skills</h2>
-        
-        <div style="margin: 1.5rem 0;">
-          <h3>Mobile Platforms</h3>
-          <p class="post-meta">
-            <span class="tag">Android</span>
-            <span class="tag">iOS</span>
-            <span class="tag">React Native</span>
-            <span class="tag">Kotlin Multiplatform</span>
-          </p>
-        </div>
-
-        <div style="margin: 1.5rem 0;">
-          <h3>Core Expertise</h3>
-          <p class="post-meta">
-            <span class="tag">Mobile Architecture</span>
-            <span class="tag">SDK Development</span>
-            <span class="tag">Platform Security</span>
-            <span class="tag">Developer Experience</span>
-            <span class="tag">Payments Integration</span>
-            <span class="tag">Multi-tenant Systems</span>
-          </p>
-        </div>
-
-        <div style="margin: 1.5rem 0;">
-          <h3>Leadership & Process</h3>
-          <p class="post-meta">
-            <span class="tag">Engineering Management</span>
-            <span class="tag">Team Building</span>
-            <span class="tag">Mentoring</span>
-            <span class="tag">Technical Strategy</span>
-            <span class="tag">Code Review</span>
-            <span class="tag">Agile Practices</span>
-          </p>
-        </div>
-      </section>
-
-      <hr class="post-divider" />
-
-      <section>
-        <h2>Focus Areas</h2>
-        <ul>
-          <li><strong>Mobile Architecture:</strong> Designing scalable, maintainable mobile systems that serve millions of users</li>
-          <li><strong>SDK Development:</strong> Building developer-friendly SDKs with excellent DX and comprehensive documentation</li>
-          <li><strong>Platform Security:</strong> Implementing security best practices in fintech and banking applications</li>
-          <li><strong>Developer Experience:</strong> Reducing friction in development workflows and improving team productivity</li>
-          <li><strong>Team Growth:</strong> Mentoring engineers and building high-performing engineering teams</li>
-        </ul>
-      </section>
-
-      <hr class="post-divider" />
-
-      <section>
-        <h2>Get in Touch</h2>
-        <p>
-          Interested in working together or discussing mobile engineering, SDK development, or team leadership? 
-          Let's connect.
-        </p>
-        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem;">
-          <a href={resumeFile} style="padding: 0.6rem 1rem; border: 1px solid currentColor; text-decoration: none; display: inline-block;">Download Résumé</a>
-          <a href={`mailto:kausthubhadhikari@gmail.com`} style="padding: 0.6rem 1rem; border: 1px solid currentColor; text-decoration: none; display: inline-block;">Email</a>
-          <a href={`https://www.linkedin.com/in/${AUTHOR.linkedin}`} style="padding: 0.6rem 1rem; border: 1px solid currentColor; text-decoration: none; display: inline-block;">LinkedIn</a>
-          <a href={`https://github.com/${AUTHOR.github}`} style="padding: 0.6rem 1rem; border: 1px solid currentColor; text-decoration: none; display: inline-block;">GitHub</a>
-          <a href={`https://twitter.com/${AUTHOR.twitter}`} style="padding: 0.6rem 1rem; border: 1px solid currentColor; text-decoration: none; display: inline-block;">Twitter</a>
-        </div>
-      </section>
-    </div>
-  </div>
-</Base>
-
+  </section>
+</Layout>
