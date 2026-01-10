@@ -81,3 +81,23 @@
   width:auto;
   opacity:.9;
 }
+
+.chips{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip{
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--border, rgba(255,255,255,.12));
+  border-radius: 6px;
+  background: rgba(255,255,255,.04);
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
+.impact{
+  margin-top: 0.5rem;
+}
