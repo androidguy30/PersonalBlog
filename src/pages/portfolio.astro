@@ -60,7 +60,7 @@ const sep = " &middot; ";
               {item.data.impact?.length ? (
                 <div class="impact">
                   {item.data.impact.slice(0, 4).map((x) => (
-                    <span class="chip"><b>Impact:</b> {x}</span>
+                    <div style="margin-top: 0.5rem;"><b>Impact:</b> {x}</div>
                   ))}
                 </div>
               ) : null}
@@ -72,9 +72,9 @@ const sep = " &middot; ";
               ) : null}
 
               {item.data.artifacts?.length ? (
-                <div class="chips" style="margin-top: .9rem;">
+                <div style="margin-top: .9rem;">
                   {item.data.artifacts.map((a) => (
-                    <a class="chip" href={a.url} target="_blank" rel="noreferrer">
+                    <a href={a.url} target="_blank" rel="noreferrer" style="display: inline-block; margin-right: 1rem; margin-bottom: 0.5rem;">
                       {a.kind === "video" ? "🎥 " : a.kind === "app" ? "📱 " : "🔗 "}
                       {a.label}
                     </a>
